@@ -1,32 +1,10 @@
 import React, { Component } from "react";
 import Contact from "./Contact";
+import { Consumer } from "../context";
 
 class Contacts extends Component {
-  state = {
-    contacts: [
-      {
-        id: 1,
-        name: "Luis Figo",
-        email: "figo@gmail.com",
-        phone: "10"
-      },
-      {
-        id: 2,
-        name: "Zinedine Zidane",
-        email: "Zidane@gmail.com",
-        phone: "05"
-      },
-      {
-        id: 3,
-        name: "Raul Gonzales",
-        email: "raul@gmail.com",
-        phone: "07"
-      }
-    ]
-  };
-
   //delete function to delete selected id and change the state
-  deleteContact = id => {
+  /* deleteContact = id => {
     const { contacts } = this.state;
 
     const newContact = contacts.filter((contact, index) => contact.id !== id);
@@ -34,10 +12,35 @@ class Contacts extends Component {
     this.setState({
       contacts: newContact
     });
-  };
+  }; */
 
   render() {
-    const { contacts } = this.state;
+    return (
+      //Using Consumer to consume the context value
+      <Consumer>
+        {value => {
+          const { contacts } = value;
+          return (
+            <React.Fragment>
+              {contacts.map(contact => (
+                <Contact
+                  key={contact.id}
+                  //Sent individually
+                  // name={contact.name}
+                  // email={contact.email}
+                  // phone={contact.phone}
+
+                  //Sent in object
+                  contact={contact}
+                />
+              ))}
+            </React.Fragment>
+          );
+        }}
+      </Consumer>
+    );
+
+    /* const { contacts } = this.state;
     return (
       <React.Fragment>
         {contacts.map(contact => (
@@ -55,7 +58,7 @@ class Contacts extends Component {
           />
         ))}
       </React.Fragment>
-    );
+    ); */
   }
 }
 
